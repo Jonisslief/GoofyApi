@@ -1,6 +1,4 @@
-﻿using Microsoft.SqlServer.Types;
-using NetTopologySuite.Geometries;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
@@ -11,7 +9,8 @@ namespace Domain.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         
-        public Point? Location { get; set; }
+        public Double? LocationX { get; set; }
+        public Double? LocationY { get; set; }
 
         public List<Photo> Photos { get; set; }
 

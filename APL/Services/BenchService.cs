@@ -2,7 +2,6 @@
 using APL.Interfaces;
 using BLL.Interfaces;
 using Domain.Entities;
-using NetTopologySuite.Geometries;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace APL.Services
@@ -25,7 +24,8 @@ namespace APL.Services
             benches.ForEach(b =>
             {
                 var score = b.Score;
-                b.Location ??= new Point(0, 0);
+                b.LocationX ??= 0;
+                b.LocationY ??= 0;
                 var photos = new List<PhotoDTO>();
                 foreach (var photo in b.Photos)
                 {
@@ -43,8 +43,8 @@ namespace APL.Services
                 {
                     Name = b.Name,
                     User = new UserDTO { Id = userId, Name = user.Name },
-                    LocationX = b.Location.Coordinate.X,
-                    LocationY = b.Location.Coordinate.Y,
+                    LocationX = b.LocationX,
+                    LocationY = b.LocationY,
                     Score = new ScoreDTO { Id = score.Id, Bench = score.Bench, Location = score.Location, Privacy = score.Privacy, View = score.View, Average = (score.View + score.Privacy + score.Bench + score.Location) / 4 },
                 });
             });
@@ -55,7 +55,8 @@ namespace APL.Services
         {
             var bench = await _bench.GetByIdAsync(id);
             var user = await _user.GetByIdAsync(bench.UserId);
-            bench.Location ??= new Point(0, 0);
+            bench.LocationX ??= 0;
+            bench.LocationY ??= 0;
             var score = bench.Score;
             var photos = new List<PhotoDTO>();
             foreach (var photo in bench.Photos)
@@ -74,8 +75,8 @@ namespace APL.Services
             {
                 Id = id,
                 Name = bench.Name,
-                LocationX = bench.Location.Coordinate.X,
-                LocationY = bench.Location.Coordinate.Y,
+                LocationX = bench.LocationX,
+                LocationY = bench.LocationY,
                 Photos = photos,
                 Score = new ScoreDTO { Id = score.Id, Bench = score.Bench, Location = score.Location, Privacy = score.Privacy, View = score.View, Average = (score.View + score.Privacy + score.Bench + score.Location) / 4 },
                 User = new UserDTO { Id =  user.Id, Name = user.Name }
@@ -92,7 +93,8 @@ namespace APL.Services
             {
                 var user = x.User;
                 var score = x.Score;
-                x.Location ??= new Point(0, 0);
+                x.LocationX ??= 0;
+                x.LocationY ??= 0;
                 var photos = new List<PhotoDTO>();
                 foreach (var photo in x.Photos)
                 {
@@ -110,8 +112,8 @@ namespace APL.Services
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    LocationX = x.Location.Coordinate.X,
-                    LocationY = x.Location.Coordinate.Y,
+                    LocationX = x.LocationX,
+                    LocationY = x.LocationY,
                     Score = new ScoreDTO { Id = score.Id, BenchId = x.Id, Bench = score.Bench, Location = score.Location, Privacy = score.Privacy, View = score.View, Average = (score.View + score.Privacy + score.Bench + score.Location) / 4 },
                     Photos = photos,
                     User = new UserDTO { Id = user.Id, Name = user.Name },
@@ -138,7 +140,8 @@ namespace APL.Services
                 UserId = (int)addBench.UserId!,
                 Name = addBench.Name,
                 Score = score,
-                Location = new Point(addBench.LocationX, addBench.LocationY) { SRID = 4326 },
+                LocationX = addBench.LocationX,
+                LocationY = addBench.LocationY,
                 Photos = photos
             };
             await _bench.AddAsync(bench);

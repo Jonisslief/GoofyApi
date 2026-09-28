@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MySqlConnector;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,7 +49,16 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Db"), x => x.UseNetTopologySuite()));
+//builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Db"), x => x.UseNetTopologySuite()));
+var conBuilder = new MySqlConnectionStringBuilder
+{
+    Server = "127.0.0.1:3306",
+    UserID = "u2_Hc6tMrJeZK",
+    Password = "tWLf@WyBqo!BUHbOaR8n720u",
+    Database = "s2_GoofyApi",
+};
+var serverVersion = new MariaDbServerVersion(new Version(10, 11, 14));
+builder.Services.AddDbContext<DataContext>(x => x.UseMySql("userid=u2_Hc6tMrJeZK;password=tWLf@WyBqo!BUHbOaR8n720u;host=212.227.171.102;database=s2_GoofyApi;persist security info=True", serverVersion));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ITokenService, TokenService>();

@@ -1,5 +1,4 @@
 ﻿using Domain.Entities;
-using NetTopologySuite.Geometries;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APL.DTOs
