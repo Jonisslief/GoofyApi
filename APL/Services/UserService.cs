@@ -94,8 +94,6 @@ namespace APL.Services
         public async Task UpdateUser(UserDTO dto)
         {
             var user = await _userManager.GetByIdAsync((int)dto.Id!);
-            //var roleOld = await _userManager.GetUserRoleAsync((int)user.Id);
-            //string roleName = user.Role!;
             int roleId;
             if (string.IsNullOrEmpty(dto.RoleId)) { roleId = user.RoleId; }
             else { roleId = int.Parse(dto.RoleId); }
