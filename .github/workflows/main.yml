@@ -12,4 +12,4 @@ jobs:
         url: ${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power
         method: POST
         data: '{"signal": "restart"}'
-        headers: '{"Bearer": "${{ secrets.API_KEY }}", "Content-Type: application/json", "Accept: Application/vnd.pterodactyl.v1+json"}'
+        headers: '{""Authorization: Bearer ${{ secrets.API_KEY }}", "Content-Type: application/json", "Accept: Application/vnd.pterodactyl.v1+json"}'
