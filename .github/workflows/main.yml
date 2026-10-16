@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: cssnr/web-request-action@v2
       with:
-        url: '${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power'
+        url: ${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power
         headers: '{"Authorization": "Bearer ${{ secrets.API_KEY }}", "Content-Type": "application/json", "Accept": "Application/vnd.pterodactyl.v1+json"}'
         data: '{"signal": "restart"}'
         insecure: true
