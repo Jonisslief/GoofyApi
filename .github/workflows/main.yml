@@ -13,3 +13,4 @@ jobs:
         method: POST
         data: '{"signal": "restart"}'
         headers: '{"Authorization": "Bearer ${{ secrets.API_KEY }}", "Content-Type": "application/json", "Accept": "Application/vnd.pterodactyl.v1+json"}'
+        insecure: true
