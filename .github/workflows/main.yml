@@ -1,8 +1,15 @@
-- name: Web Request Action
+name: Web Request Action
 
-  uses: Satak/webrequest-action@v1.5.0
-  with:
-    url: ${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power
-    method: POST
-    payload: '{"signal": "restart"}'
-    headers: '{"Bearer ${{ secrets.API_KEY }}"}'
+on:
+  push
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: Satak/webrequest-action@v1.5.0
+      with:
+        url: ${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power
+        method: POST
+        payload: '{"signal": "restart"}'
+        headers: '{"Bearer ${{ secrets.API_KEY }}"}'
