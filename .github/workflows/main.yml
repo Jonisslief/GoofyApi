@@ -12,4 +12,4 @@ jobs:
         url: ${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power
         method: POST
         payload: '{"signal": "restart"}'
-        headers: '{"Bearer ${{ secrets.API_KEY }}"}'
+        headers: '{"Bearer": "${{ secrets.API_KEY }}"}'
