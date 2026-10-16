@@ -2,6 +2,7 @@ using APL.DTOs;
 using APL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -34,6 +35,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType<BenchDTO>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetBenchAsync(int id)
         {
@@ -48,6 +50,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType<List<BenchDTO>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllBenches()
         {
@@ -74,22 +77,41 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> DeleteBench(int id)
         {
-            var task = _bench.DeleteAsync(id);
-            await task;
-            if (task.IsCompletedSuccessfully)
+            var userClaims = HttpContext.User.Claims;
+            var bench = await _bench.GetBenchAsync(id);
+            var userRole = userClaims.First(c => c.Type == ClaimTypes.Role).Value;
+            int.TryParse(userClaims.First(c => c.Type == "UserID").Value, out var userId);
+
+            if (userRole == "Admin" || userId == bench.User.Id)
             {
-                return Ok();
+                var task = _bench.DeleteAsync(id);
+                await task;
+                if (task.IsCompletedSuccessfully)
+                {
+                    return Ok();
+                }
+                return BadRequest(task.Exception);
             }
-            return BadRequest(task.Exception);
+
+            return Forbid();
         }
 
         [HttpPut]
-        [Authorize(Roles ="Admin")]
+        //[Authorize(Roles ="Admin")]
         public async Task<IActionResult> UpdateBench([FromBody] AddBenchDTO bench)
         {
+            var userClaims = HttpContext.User.Claims;
+            var userRole = userClaims.First(c => c.Type == ClaimTypes.Role).Value;
+            int.TryParse(userClaims.First(c => c.Type == "UserID").Value, out var userId);
+
+            if (userRole != "Admin" || userId != bench.UserId)
+            {
+                return Forbid();
+            }
+
             bench.Score.BenchId = bench.Score.BenchId ?? bench.Id;
             var task = _bench.UpdateBenchAsync(bench);
             await task;

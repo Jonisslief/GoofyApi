@@ -41,10 +41,12 @@ namespace APL.Services
                 }
                 benchesDto.Add(new BenchDTO
                 {
+                    Id = b.Id,
                     Name = b.Name,
                     User = new UserDTO { Id = userId, Name = user.Name },
                     LocationX = b.LocationX,
                     LocationY = b.LocationY,
+                    Photos = photos,
                     Score = new ScoreDTO { Id = score.Id, Bench = score.Bench, Location = score.Location, Privacy = score.Privacy, View = score.View, Average = (score.View + score.Privacy + score.Bench + score.Location) / 4 },
                 });
             });
@@ -79,7 +81,7 @@ namespace APL.Services
                 LocationY = bench.LocationY,
                 Photos = photos,
                 Score = new ScoreDTO { Id = score.Id, Bench = score.Bench, Location = score.Location, Privacy = score.Privacy, View = score.View, Average = (score.View + score.Privacy + score.Bench + score.Location) / 4 },
-                User = new UserDTO { Id =  user.Id, Name = user.Name }
+                User = new UserDTO { Id = user.Id, Name = user.Name }
             };
 
             return dto;
@@ -134,7 +136,7 @@ namespace APL.Services
                 Average = (addBench.Score.View + addBench.Score.Privacy + addBench.Score.Bench + addBench.Score.Location) / 4
             };
             var photos = new List<Photo>();
-            addBench.Photos.ForEach(b => photos.Add(new Photo { Bytes = b.Bytes, Description = b.Description, FileExtension = b.FileExtention, Size = b.Size}));
+            addBench.Photos.ForEach(b => photos.Add(new Photo { Bytes = b.Bytes, Description = b.Description, FileExtension = b.FileExtention, Size = b.Size }));
             var bench = new Bench
             {
                 UserId = (int)addBench.UserId!,
@@ -161,6 +163,8 @@ namespace APL.Services
                 Id = (int)updateBench.Id,
                 Name = updateBench.Name,
                 UserId = (int)updateBench.UserId!,
+                LocationX = updateBench.LocationX,
+                LocationY = updateBench.LocationY,
                 //Location = updateBench.Location,
                 Photos = photos
             };

@@ -34,7 +34,7 @@ namespace APL.Services
                     new Claim("UserName", user.Name),
                     new Claim(ClaimTypes.Role, roles)
                 ]),
-                Expires = DateTime.UtcNow.AddMinutes(10),
+                //Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(
                     signInKey,
                     SecurityAlgorithms.HmacSha256Signature
