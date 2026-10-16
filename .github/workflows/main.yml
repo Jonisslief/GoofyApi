@@ -7,16 +7,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-    - name: curl
-      uses: sozo-design/curl@v1.0.2
+    - uses: fjogeleit/http-request-action@v1
       with:
-       args: curl.exe --request POST "http://panel.jonisslief.nl/api/client/servers/58338e12/power" --header "Authorization: Bearer ptlc_HwcLD5tixjPLuOSvA0Uu3r32cGcytmuCDQOfSUBlm8C" --header "Accept: Application/vnd.pterodactyl.v1+json" --header "Content-Type: application/json" --data '{ "signal": "restart"}'
-        #background: url: ${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power
-        #headers: | 
-         #   Authorization: Bearer ptlc_HwcLD5tixjPLuOSvA0Uu3r32cGcytmuCDQOfSUBlm8C
-          #  Accept: Application/vnd.pterodactyl.v1+json
-           # Content-Type: application/json
-        #data: |
-         #  {
-          #   "signal": "restart"
-           #}
+        url: '${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power'
+        customHeaders: '{"Accept": "Application/vnd.pterodactyl.v1+json"}'
+        bearerToken: ${{ secrets.API_KEY }}
+        data: '{ "signal": "restart" }'
