@@ -7,9 +7,10 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-    - uses: Satak/webrequest-action@v1.5.0
+    - uses: cssnr/web-request-action@v2.1.1
       with:
         url: ${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power
         method: POST
-        payload: '{"signal": "restart"}'
+        data: '{"signal": "restart"}'
         headers: '{"Bearer": "${{ secrets.API_KEY }}"}'
+        insecure: true
