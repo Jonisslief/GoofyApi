@@ -12,4 +12,3 @@ jobs:
         url: ${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power
         headers: '{"Authorization": "Bearer ${{ secrets.API_KEY }}", "Content-Type": "application/json", "Accept": "Application/vnd.pterodactyl.v1+json"}'
         data: '{"signal": "restart"}'
-        insecure: true
