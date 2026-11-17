@@ -18,6 +18,7 @@ namespace API.Controllers
             _bench = bench;
         }
 
+        // GET api/<BenchController>
         [HttpGet]
         [ProducesResponseType<List<BenchDTO>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCurrentUserBenches()
@@ -34,6 +35,7 @@ namespace API.Controllers
             return BadRequest(task.Exception);
         }
 
+        // GET api/<BenchController>/5
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType<BenchDTO>(StatusCodes.Status200OK)]
@@ -49,6 +51,7 @@ namespace API.Controllers
             return BadRequest(task.Exception);
         }
 
+        // GET api/<BenchController>
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType<List<BenchDTO>>(StatusCodes.Status200OK)]
@@ -64,6 +67,7 @@ namespace API.Controllers
             return BadRequest(task.Exception);
         }
 
+        // POST api/<BenchController>
         [HttpPost]
         public async Task<IActionResult> AddBench([FromBody] AddBenchDTO bench)
         {
@@ -76,6 +80,7 @@ namespace API.Controllers
             return BadRequest(task.Exception);
         }
 
+        // DELETE api/<BenchController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> DeleteBench(int id)
@@ -99,6 +104,7 @@ namespace API.Controllers
             return Forbid();
         }
 
+        // PUT api/<BenchController>
         [HttpPut]
         //[Authorize(Roles ="Admin")]
         public async Task<IActionResult> UpdateBench([FromBody] AddBenchDTO bench)
@@ -122,6 +128,7 @@ namespace API.Controllers
             return BadRequest(task.Exception);
         }
 
+        // PUT api/<BenchController>
         [HttpPut]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateScore([FromBody] ScoreDTO score)

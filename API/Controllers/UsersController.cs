@@ -98,6 +98,7 @@ namespace API.Controllers
             return BadRequest(task.Exception);
         }
 
+        // POST api/<UsersController>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> SignIn([FromBody] LoginDTO dTO)
@@ -112,6 +113,7 @@ namespace API.Controllers
             return BadRequest(new { message = "Username or password is incorrect"});
         }
 
+        // PUT api/<UsersController>
         [HttpPut]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromBody] UserDTO dTO)

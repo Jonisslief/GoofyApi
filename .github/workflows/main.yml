@@ -1,0 +1,15 @@
+name: Web Request Action
+
+on:
+  push
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: fjogeleit/http-request-action@v1
+      with:
+        url: '${{ secrets.PANEL_URL }}/api/client/servers/${{ secrets.SERVER_ID }}/power'
+        customHeaders: '{"Accept": "Application/vnd.pterodactyl.v1+json"}'
+        bearerToken: ${{ secrets.API_KEY }}
+        data: '{ "signal": "restart" }'
