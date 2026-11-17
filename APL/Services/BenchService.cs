@@ -24,11 +24,12 @@ namespace APL.Services
             benches.ForEach(b =>
             {
                 var score = b.Score;
+                var photos = new List<PhotoDTO>();
                 b.LocationX ??= 0;
                 b.LocationY ??= 0;
-                var photos = new List<PhotoDTO>
+                if (b.Photos.Count > 0)
                 {
-                    new PhotoDTO
+                    photos.Add(new()
                     {
                         Id = b.Photos[0].Id,
                         Bytes = b.Photos[0].Bytes,
@@ -36,8 +37,9 @@ namespace APL.Services
                         FileExtention = b.Photos[0].FileExtension,
                         Size = b.Photos[0].Size,
                         BenchId = b.Id
-                    }
-                };
+                    });
+                    
+                }
                 benchesDto.Add(new BenchDTO
                 {
                     Id = b.Id,
@@ -56,21 +58,22 @@ namespace APL.Services
         {
             var bench = await _bench.GetByIdAsync(id);
             var user = await _user.GetByIdAsync(bench.UserId);
+            var photos = new List<PhotoDTO>();
             bench.LocationX ??= 0;
             bench.LocationY ??= 0;
             var score = bench.Score;
-            var photos = new List<PhotoDTO>
+            if (bench.Photos.Count > 0)
+            {
+                photos.Add(new()
                 {
-                    new PhotoDTO
-                    {
-                        Id = bench.Photos[0].Id,
-                        Bytes = bench.Photos[0].Bytes,
-                        Description = bench.Photos[0].Description,
-                        FileExtention = bench.Photos[0].FileExtension,
-                        Size = bench.Photos[0].Size,
-                        BenchId = bench.Id
-                    }
-                };
+                    Id = bench.Photos[0].Id,
+                    Bytes = bench.Photos[0].Bytes,
+                    Description = bench.Photos[0].Description,
+                    FileExtention = bench.Photos[0].FileExtension,
+                    Size = bench.Photos[0].Size,
+                    BenchId = bench.Id
+                });
+            }
             var dto = new BenchDTO
             {
                 Id = id,
@@ -93,11 +96,12 @@ namespace APL.Services
             {
                 var user = x.User;
                 var score = x.Score;
+                var photos = new List<PhotoDTO>();
                 x.LocationX ??= 0;
                 x.LocationY ??= 0;
-                var photos = new List<PhotoDTO>
+                if (x.Photos.Count > 0)
                 {
-                    new PhotoDTO
+                    photos.Add(new()
                     {
                         Id = x.Photos[0].Id,
                         Bytes = x.Photos[0].Bytes,
@@ -105,8 +109,8 @@ namespace APL.Services
                         FileExtention = x.Photos[0].FileExtension,
                         Size = x.Photos[0].Size,
                         BenchId = x.Id
-                    }
-                };
+                    });
+                }
                 benchesDTO.Add(new BenchDTO
                 {
                     Id = x.Id,
@@ -189,7 +193,10 @@ namespace APL.Services
         {
             var photos = await _bench.GetPhotosAsync(benchId);
             var photoDto = new List<PhotoDTO>();
-            photos.ForEach(p => photoDto.Add(new PhotoDTO { Id = p.Id, BenchId = p.BenchId, Bytes = p.Bytes, Description = p.Description, FileExtention = p.FileExtension, Size = p.Size}));
+            if (photos.Count > 0)
+            {
+                photos.ForEach(p => photoDto.Add(new PhotoDTO { Id = p.Id, BenchId = p.BenchId, Bytes = p.Bytes, Description = p.Description, FileExtention = p.FileExtension, Size = p.Size }));
+            }
             return photoDto;
         }
     }
