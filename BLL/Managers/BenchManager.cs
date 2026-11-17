@@ -47,5 +47,10 @@ namespace BLL.Managers
         {
             await _bench.UpdateScoreAsync(score);
         }
+        
+        public async Task<List<Photo>> GetPhotosAsync(int benchId)
+        {
+            return await _bench.GetPicturesAsync(benchId);
+        }
     }
 }

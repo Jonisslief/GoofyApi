@@ -11,5 +11,6 @@ namespace BLL.Interfaces
         Task<List<Bench>> GetByUserAsync(int id);
         Task UpdateBenchAsync(Bench bench);
         Task UpdateScoreAsync(Score score);
+        Task<List<Photo>> GetPhotosAsync(int benchId);
     }
 }

@@ -26,19 +26,18 @@ namespace APL.Services
                 var score = b.Score;
                 b.LocationX ??= 0;
                 b.LocationY ??= 0;
-                var photos = new List<PhotoDTO>();
-                foreach (var photo in b.Photos)
+                var photos = new List<PhotoDTO>
                 {
-                    photos.Add(new PhotoDTO
+                    new PhotoDTO
                     {
-                        Id = photo.Id,
-                        Bytes = photo.Bytes,
-                        Description = photo.Description,
-                        FileExtention = photo.FileExtension,
-                        Size = photo.Size,
+                        Id = b.Photos[0].Id,
+                        Bytes = b.Photos[0].Bytes,
+                        Description = b.Photos[0].Description,
+                        FileExtention = b.Photos[0].FileExtension,
+                        Size = b.Photos[0].Size,
                         BenchId = b.Id
-                    });
-                }
+                    }
+                };
                 benchesDto.Add(new BenchDTO
                 {
                     Id = b.Id,
@@ -60,19 +59,18 @@ namespace APL.Services
             bench.LocationX ??= 0;
             bench.LocationY ??= 0;
             var score = bench.Score;
-            var photos = new List<PhotoDTO>();
-            foreach (var photo in bench.Photos)
-            {
-                photos.Add(new PhotoDTO
+            var photos = new List<PhotoDTO>
                 {
-                    Id = photo.Id,
-                    Bytes = photo.Bytes,
-                    Description = photo.Description,
-                    FileExtention = photo.FileExtension,
-                    Size = photo.Size,
-                    BenchId = bench.Id
-                });
-            }
+                    new PhotoDTO
+                    {
+                        Id = bench.Photos[0].Id,
+                        Bytes = bench.Photos[0].Bytes,
+                        Description = bench.Photos[0].Description,
+                        FileExtention = bench.Photos[0].FileExtension,
+                        Size = bench.Photos[0].Size,
+                        BenchId = bench.Id
+                    }
+                };
             var dto = new BenchDTO
             {
                 Id = id,
@@ -97,19 +95,18 @@ namespace APL.Services
                 var score = x.Score;
                 x.LocationX ??= 0;
                 x.LocationY ??= 0;
-                var photos = new List<PhotoDTO>();
-                foreach (var photo in x.Photos)
+                var photos = new List<PhotoDTO>
                 {
-                    photos.Add(new PhotoDTO
+                    new PhotoDTO
                     {
-                        Id = photo.Id,
-                        Bytes = photo.Bytes,
-                        Description = photo.Description,
-                        FileExtention = photo.FileExtension,
-                        Size = photo.Size,
+                        Id = x.Photos[0].Id,
+                        Bytes = x.Photos[0].Bytes,
+                        Description = x.Photos[0].Description,
+                        FileExtention = x.Photos[0].FileExtension,
+                        Size = x.Photos[0].Size,
                         BenchId = x.Id
-                    });
-                }
+                    }
+                };
                 benchesDTO.Add(new BenchDTO
                 {
                     Id = x.Id,
@@ -186,6 +183,14 @@ namespace APL.Services
             };
 
             await _bench.UpdateScoreAsync(scoreNew);
+        }
+
+        public async Task<List<PhotoDTO>> GetPhotosAsync(int benchId)
+        {
+            var photos = await _bench.GetPhotosAsync(benchId);
+            var photoDto = new List<PhotoDTO>();
+            photos.ForEach(p => photoDto.Add(new PhotoDTO { Id = p.Id, BenchId = p.BenchId, Bytes = p.Bytes, Description = p.Description, FileExtention = p.FileExtension, Size = p.Size}));
+            return photoDto;
         }
     }
 }

@@ -12,5 +12,6 @@ namespace DAL.Interfaces
         Task<Score> GetScoreAsync(int benchId);
         Task UpdateBenchAsync(Bench bench);
         Task UpdateScoreAsync(Score score);
+        Task<List<Photo>> GetPicturesAsync(int benchId);
     }
 }

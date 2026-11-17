@@ -62,5 +62,10 @@ namespace DAL.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<Photo>> GetPicturesAsync(int benchId)
+        {
+            return await _context.Photos.Where(x => x.BenchId == benchId).ToListAsync();
+        }
     }
 }

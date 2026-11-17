@@ -11,5 +11,6 @@ namespace APL.Interfaces
         Task<List<BenchDTO>> GetUserBenches(int userId);
         Task UpdateBenchAsync(AddBenchDTO updateBench);
         Task UpdateScoreAsync(ScoreDTO score);
+        Task<List<PhotoDTO>> GetPhotosAsync(int benchId);
     }
 }

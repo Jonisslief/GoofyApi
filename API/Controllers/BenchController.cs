@@ -134,5 +134,18 @@ namespace API.Controllers
             }
             return BadRequest(task.Exception);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPhotos(int benchId)
+        {
+            var task = _bench.GetPhotosAsync(benchId);
+            var photos = await task;
+            if (task.IsCompletedSuccessfully)
+            {
+                return Ok(photos);
+            }
+            return BadRequest(task.Exception);
+        }
     }
 }
